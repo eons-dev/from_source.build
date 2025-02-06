@@ -2,8 +2,6 @@ import os
 import logging
 import shutil
 import jsonpickle
-from distutils.file_util import copy_file
-from distutils.dir_util import copy_tree, mkpath
 from ebbs import Builder
 
 
@@ -32,7 +30,7 @@ class from_source(Builder):
         if (len(newDirs) > 1):
             raise OtherBuildError(f"Confused by too many options: {newDirs}")
         os.chdir(os.path.join(self.buildPath,newDirs[0]))
-        mkpath("build")
+        Path("build").mkdir(parents=True, exist_ok=True)
         os.chdir("build")
         self.RunCommand("cmake ..")
         self.RunCommand("make")
